@@ -77,7 +77,7 @@ class _InitialPageState extends State<InitialPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => NewTaskPage(),
+                          builder: (_) => const NewTaskPage(),
                         ),
                       );
                     },

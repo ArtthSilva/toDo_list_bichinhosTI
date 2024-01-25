@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/layers/controllers/todo_controller.dart';
 
+// ignore: must_be_immutable
 class CategoryButtonCustom extends StatelessWidget {
     String imageUrl;
 
