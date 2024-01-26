@@ -13,6 +13,7 @@ class NewTaskPage extends StatefulWidget {
 
 class _NewTaskPageState extends State<NewTaskPage> {
   final _controller = TextEditingController();
+  final _anotationController = TextEditingController();
   final _dateController = TextEditingController();
   final _timeController = TextEditingController();
 
@@ -20,140 +21,172 @@ class _NewTaskPageState extends State<NewTaskPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              color: Colors.lightBlue,
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height * 0.12,
-              child: Row(
-                children: [
-                  InkWell(
-                      onTap: () => Navigator.pop(context),
-                      child: const LeadingCustomWidget()),
-                  const Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Nova tarefa',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.lightBlue,
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height * 0.12,
+                child: Row(
+                  children: [
+                    InkWell(
+                        onTap: () => Navigator.pop(context),
+                        child: const LeadingCustomWidget()),
+                    const Expanded(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Nova tarefa',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.sizeOf(context).width * 0.14 + 20,
-                  )
-                ],
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width * 0.14 + 20,
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 10, top: 15),
-              alignment: Alignment.bottomLeft,
-              child: const Text(
-                'Título',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+              Container(
+                margin: const EdgeInsets.only(left: 20, top: 15),
+                alignment: Alignment.bottomLeft,
+                child: const Text(
+                  'Título',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
               ),
-            ),
-            Form(
+              Form(
                 child: Padding(
-              padding: const EdgeInsets.only(left: 10.0, top: 10, right: 10),
-              child: Column(
-                children: [
-                  CustomTextFormFieldWidget(controller: _controller),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, top: 15),
-                    child: Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: Text(
-                            'Categoria',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ),
-                        CategoryButtonCustom(
-                            imageUrl: 'assets/images/file.png'),
-                        CategoryButtonCustom(
-                            imageUrl: 'assets/images/calendar.png'),
-                        CategoryButtonCustom(
-                            imageUrl: 'assets/images/trophy.png'),
-                      ],
-                    ),
-                  ),
-                  Row(
+                  padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+                  child: Column(
                     children: [
                       Padding(
-                        padding:
-                            const EdgeInsets.only(left: 10, right: 10, top: 10),
-                        child: SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 2.3,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  width: MediaQuery.sizeOf(context).width / 2.4,
-                                  child: const Text(
-                                    'Data',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )),
-                              SizedBox(
-                                child: TextField(
-                                  controller: _dateController,
-                                    decoration: const InputDecoration(
-                                        hintText:'Data',
-                                        filled: true,
-                                        prefixIcon: Icon(Icons.calendar_today),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide.none)),
-                                    readOnly: true,
-                                    onTap: () => _selectDate()),
-                              )
-                            ],
-                          ),
-                        ),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: CustomTextFormFieldWidget(
+                            numberMaxLines: 1,
+                            textLabel: 'Título da tarefa',
+                            controller: _controller),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 10, top: 10),
-                        child: SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 2.3,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  width: MediaQuery.sizeOf(context).width / 2.4,
-                                  child: const Text(
-                                    'Hora',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )),
-                                TextField(
-                                  controller: _timeController ,
-                                decoration: const InputDecoration(
-                                    hintText: 'Hora',
-                                    filled: true,
-                                    prefixIcon: Icon(Icons.access_time),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none)),
-                                        readOnly: true,
-                                        onTap:() => _selectTime(context)
-                               )
-                            ],
-                          ),
+                        padding: const EdgeInsets.only(left: 10, top: 15),
+                        child: Row(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: Text(
+                                'Categoria',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                            ),
+                            CategoryButtonCustom(
+                                imageUrl: 'assets/images/file.png'),
+                            CategoryButtonCustom(
+                                imageUrl: 'assets/images/calendar.png'),
+                            CategoryButtonCustom(
+                                imageUrl: 'assets/images/trophy.png'),
+                          ],
                         ),
-                      )
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, right: 10, top: 10),
+                            child: SizedBox(
+                              width: MediaQuery.sizeOf(context).width / 2.3,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.sizeOf(context).width /
+                                          2.4,
+                                      child: const Text(
+                                        'Data',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  SizedBox(
+                                    child: TextField(
+                                        controller: _dateController,
+                                        decoration: const InputDecoration(
+                                            hintText: 'Data',
+                                            filled: true,
+                                            prefixIcon:
+                                                Icon(Icons.calendar_today),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide.none)),
+                                        readOnly: true,
+                                        onTap: () => _selectDate()),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10, top: 10),
+                            child: SizedBox(
+                              width: MediaQuery.sizeOf(context).width / 2.3,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.sizeOf(context).width /
+                                          2.4,
+                                      child: const Text(
+                                        'Hora',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  TextField(
+                                      controller: _timeController,
+                                      decoration: const InputDecoration(
+                                          hintText: 'Hora',
+                                          filled: true,
+                                          prefixIcon: Icon(Icons.access_time),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide.none)),
+                                      readOnly: true,
+                                      onTap: () => _selectTime(context))
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const Row(
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                            child: Text(
+                              'Anotação',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: CustomTextFormFieldWidget(
+                          numberMaxLines: 5,
+                          textLabel: 'Anotação',
+                          controller: _anotationController,
+                        ),
+                      ),
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
-            ))
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   Future<void> _selectDate() async {
-   DateTime? picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
@@ -165,19 +198,17 @@ class _NewTaskPageState extends State<NewTaskPage> {
     }
   }
 
-
-TimeOfDay _selectedTime = TimeOfDay.now();
-  Future<TimeOfDay?> _selectTime(BuildContext context) async {
- final TimeOfDay? picked = await showTimePicker(
-    context: context,
-    initialTime: TimeOfDay.now(),
- );
- if (picked != null && picked != _selectedTime) {
-    setState(() {
-      _timeController.text = "${picked.hour}:${picked.minute.toString().padLeft(2,'0')}";
-     });
- }
-}
-
-
+  final _selectedTime = TimeOfDay.now();
+  void _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null && picked != _selectedTime) {
+      setState(() {
+        _timeController.text =
+            "${picked.hour}:${picked.minute.toString().padLeft(2, '0')}";
+      });
+    }
+  }
 }
