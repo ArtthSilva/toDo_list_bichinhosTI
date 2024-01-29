@@ -181,6 +181,14 @@ class _NewTaskPageState extends State<NewTaskPage> {
             ],
           ),
         ),
+        floatingActionButton: SizedBox(
+          width: MediaQuery.sizeOf(context).width * 0.911,
+          child: FloatingActionButton(
+            backgroundColor: Colors.lightBlue,
+            onPressed: () {},
+            child: const Text('Salvar',style: TextStyle(color: Colors.white),),
+          ),
+        ),
       ),
     );
   }
