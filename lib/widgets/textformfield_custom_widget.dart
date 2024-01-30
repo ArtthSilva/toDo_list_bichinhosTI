@@ -20,9 +20,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
       validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'campo não preenchido';
-        } else if (value == '0') {
-          return 'o numero 0 não é positivo, ele é neutro';
-        }
+        } 
         return null;
       },
       decoration: InputDecoration(

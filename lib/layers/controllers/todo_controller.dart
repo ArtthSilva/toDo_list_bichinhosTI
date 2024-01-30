@@ -1,14 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_list/layers/models/task_model.dart';
+
 
 class TodoController extends ChangeNotifier{
-  ValueNotifier isSelected = ValueNotifier<bool>(false);
+    ValueNotifier category = ValueNotifier<String>('');
+ 
   
-  void escolher(){
-    if(isSelected.value){
-      isSelected.value = false;
-    }else{
-      isSelected.value = true;
-    }
+  
+   escolher(String newCategory){
+    category.value = newCategory;
     notifyListeners();
   }
+
+  Future<void> saveTask(TaskModel task) async {
+ SharedPreferences prefs = await SharedPreferences.getInstance();
+ await prefs.setString('task', jsonEncode(task.toJson()));
+ print(task.annotation);
+}
+
 }

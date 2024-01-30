@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_list/widgets/category_button_custom_widget.dart';
+import 'package:todo_list/layers/controllers/todo_controller.dart';
+import 'package:todo_list/layers/models/task_model.dart';
 import 'package:todo_list/widgets/leading_custom_widget.dart';
 import 'package:todo_list/widgets/textformfield_custom_widget.dart';
 
@@ -12,10 +13,11 @@ class NewTaskPage extends StatefulWidget {
 }
 
 class _NewTaskPageState extends State<NewTaskPage> {
-  final _controller = TextEditingController();
+  final _titleTaskController = TextEditingController();
   final _anotationController = TextEditingController();
   final _dateController = TextEditingController();
   final _timeController = TextEditingController();
+  final TodoController controller = TodoController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,29 +68,72 @@ class _NewTaskPageState extends State<NewTaskPage> {
                         child: CustomTextFormFieldWidget(
                             numberMaxLines: 1,
                             textLabel: 'Título da tarefa',
-                            controller: _controller),
+                            controller: _titleTaskController),
                       ),
-                      Padding(
+                       Padding(
                         padding: const EdgeInsets.only(left: 10, top: 15),
                         child: Row(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.only(right: 8.0),
-                              child: Text(
-                                'Categoria',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
+                            const Text(
+                              'Categoria',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
                             ),
-                            CategoryButtonCustom(
-                                imageUrl: 'assets/images/file.png'),
-                            CategoryButtonCustom(
-                                imageUrl: 'assets/images/calendar.png'),
-                            CategoryButtonCustom(
-                                imageUrl: 'assets/images/trophy.png'),
+                         AnimatedBuilder(
+                        animation: controller,
+                        builder: (__,_) => GestureDetector(
+                          onTap: () => controller.escolher('file'),
+                          child: CircleAvatar(
+                            radius: 31,
+                            backgroundColor: controller.category.value == 'file'
+                                ? Colors.black
+                                : Colors.transparent,
+                            child: const CircleAvatar(
+                              radius: 28,
+                              backgroundImage:
+                                  AssetImage('assets/images/file.png'),
+                            ),
+                          ),
+                        ),
+                      ),
+                         AnimatedBuilder(
+                        animation: controller,
+                        builder: (__,_) => GestureDetector(
+                          onTap: () => controller.escolher('calendar'),
+                          child: CircleAvatar(
+                            radius: 31,
+                            backgroundColor: controller.category.value == 'calendar'
+                                ? Colors.black
+                                : Colors.transparent,
+                            child: const CircleAvatar(
+                              radius: 28,
+                              backgroundImage:
+                                  AssetImage('assets/images/calendar.png'),
+                            ),
+                          ),
+                        ),
+                      ),
+                         AnimatedBuilder(
+                        animation: controller,
+                        builder: (__,_) => GestureDetector(
+                          onTap: () => controller.escolher('trophy'),
+                          child: CircleAvatar(
+                            radius: 31,
+                            backgroundColor: controller.category.value == 'trophy'
+                                ? Colors.black
+                                : Colors.transparent,
+                            child: const CircleAvatar(
+                              radius: 28,
+                              backgroundImage:
+                                  AssetImage('assets/images/trophy.png'),
+                            ),
+                          ),
+                        ),
+                      ),
                           ],
                         ),
                       ),
+
                       Row(
                         children: [
                           Padding(
@@ -185,8 +230,19 @@ class _NewTaskPageState extends State<NewTaskPage> {
           width: MediaQuery.sizeOf(context).width * 0.911,
           child: FloatingActionButton(
             backgroundColor: Colors.lightBlue,
-            onPressed: () {},
-            child: const Text('Salvar',style: TextStyle(color: Colors.white),),
+            onPressed: () {
+              TaskModel task = TaskModel(
+                  title: _titleTaskController.text,
+                  category: controller.category.value,
+                  date: _dateController.text,
+                  hour: _timeController.text,
+                  annotation: _anotationController.text);
+                TodoController().saveTask(task);
+            },
+            child: const Text(
+              'Salvar',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
       ),
