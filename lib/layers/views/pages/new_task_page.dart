@@ -17,7 +17,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
   final _anotationController = TextEditingController();
   final _dateController = TextEditingController();
   final _timeController = TextEditingController();
-  final TodoController controller = TodoController();
+final TodoController controller = TodoController();
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +237,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
                   date: _dateController.text,
                   hour: _timeController.text,
                   annotation: _anotationController.text);
-                TodoController().saveTask(task);
+                controller.saveTask(task);
             },
             child: const Text(
               'Salvar',

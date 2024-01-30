@@ -1,24 +1,28 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_list/layers/database/sqflite_db.dart';
 import 'package:todo_list/layers/models/task_model.dart';
 
+class TodoController extends ChangeNotifier {
+  ValueNotifier category = ValueNotifier<String>('');
+  List<TaskModel> tasks = [];
 
-class TodoController extends ChangeNotifier{
-    ValueNotifier category = ValueNotifier<String>('');
- 
-  
-  
-   escolher(String newCategory){
+  static final TodoController _singleton = TodoController._internal();
+
+  factory TodoController() {
+    return _singleton;
+  }
+
+  TodoController._internal();
+
+  escolher(String newCategory) {
     category.value = newCategory;
     notifyListeners();
   }
 
   Future<void> saveTask(TaskModel task) async {
- SharedPreferences prefs = await SharedPreferences.getInstance();
- await prefs.setString('task', jsonEncode(task.toJson()));
- print(task.annotation);
-}
-
+    await SqfliteDB.insertTask(task);
+    tasks.add(task);
+    print(task.annotation);
+    print(tasks.length);
+  }
 }
