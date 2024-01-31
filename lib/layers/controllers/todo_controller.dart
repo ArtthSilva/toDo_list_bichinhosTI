@@ -6,13 +6,12 @@ class TodoController extends ChangeNotifier {
   ValueNotifier category = ValueNotifier<String>('');
   List<TaskModel> tasks = [];
 
-  static final TodoController _singleton = TodoController._internal();
-
+  static final TodoController _singleton = TodoController._();
+  TodoController._();
   factory TodoController() {
     return _singleton;
   }
 
-  TodoController._internal();
 
   escolher(String newCategory) {
     category.value = newCategory;
@@ -22,7 +21,13 @@ class TodoController extends ChangeNotifier {
   Future<void> saveTask(TaskModel task) async {
     await SqfliteDB.insertTask(task);
     tasks.add(task);
-    print(task.annotation);
-    print(tasks.length);
   }
+
+  Future<void> loadTasks() async {
+ final tasksFromDb = await SqfliteDB.getTasks();
+ tasks = tasksFromDb.map((task) => TaskModel.fromJson(task)).toList();
+}
+
+ 
+
 }

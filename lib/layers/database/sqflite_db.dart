@@ -19,7 +19,7 @@ class SqfliteDB {
 
  static Future<Database> db() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'todolist.db'),
+      join(await getDatabasesPath(), 'todolistbichinhos.db'),
       version: 1,
       onCreate: (Database database, int version) async {
         await createTables(database);
@@ -66,4 +66,9 @@ class SqfliteDB {
       print("Something went wrong when deleting a task: $err");
     }
  }
+
+ static Future<void> deleteTable() async {
+ final db = await SqfliteDB.db();
+ await db.execute("DROP TABLE IF EXISTS tasks");
+}
 }

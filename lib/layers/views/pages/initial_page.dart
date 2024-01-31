@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_list/layers/controllers/todo_controller.dart';
 import 'package:todo_list/layers/views/pages/new_task_page.dart';
+import 'package:todo_list/widgets/tasks_custom_widget.dart';
 
 class InitialPage extends StatefulWidget {
   const InitialPage({super.key});
@@ -9,13 +11,22 @@ class InitialPage extends StatefulWidget {
   State<InitialPage> createState() => _InitialPageState();
 }
 
+
 class _InitialPageState extends State<InitialPage> {
+  TodoController controller = TodoController();
+  @override
+  void initState() {
+    super.initState();
+    controller.loadTasks();
+  }
+
   final String dataFormatada =
       DateFormat('LLLL, d, y', 'pt_BR').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey[200],
         body: Stack(
           children: [
             Column(
@@ -60,7 +71,29 @@ class _InitialPageState extends State<InitialPage> {
                     ],
                   ),
                 ),
+                
               ],
+            ),
+            Align(
+              alignment: Alignment(0, -0.35),
+              child: ListView.builder(
+                    itemCount: controller.tasks.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),                   
+                    itemBuilder:(context, index){
+                      return Row(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.sizeOf(context).width * 0.10,
+                          ),
+                          TasksCustomWidget(
+                            urlImage: controller.tasks[index].category,
+                            urlTitle: controller.tasks[index].title, 
+                            urlDate: controller.tasks[index].date, 
+                            urlHour: controller.tasks[index].hour),
+                        ],
+                      );
+                    } ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
