@@ -14,7 +14,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextFormField(      
       maxLines: numberMaxLines,
       controller: controller,
       validator: (String? value) {
@@ -26,6 +26,8 @@ class CustomTextFormFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         hintText: textLabel,
+        filled: true,
+        fillColor: Colors.white
          ),
       
     );

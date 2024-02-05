@@ -1,17 +1,19 @@
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class TaskModel {
   final String title;
   final String category;
   final dynamic date;
   final dynamic hour;
   final String annotation;
-
+ 
   TaskModel(
-      {required this.title,
+      {
+      required this.title,
       required this.category,
       required this.date,
       required this.hour,
-      required this.annotation});
+      required this.annotation,
+      });
 
   TaskModel.fromJson(Map<String, dynamic> json)
       : title = json['title'],
@@ -25,6 +27,8 @@ class TaskModel {
         'category': category,
         'date': date,
         'hour': hour,
-        'annotation': annotation,
+        'annotation': annotation          
       };
+
+  
 }

@@ -23,6 +23,7 @@ final TodoController controller = TodoController();
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey[100],
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -82,7 +83,7 @@ final TodoController controller = TodoController();
                          AnimatedBuilder(
                         animation: controller,
                         builder: (__,_) => GestureDetector(
-                          onTap: () => controller.escolher('file'),
+                          onTap: () => controller.pickCategory('file'),
                           child: CircleAvatar(
                             radius: 31,
                             backgroundColor: controller.category.value == 'file'
@@ -99,7 +100,7 @@ final TodoController controller = TodoController();
                          AnimatedBuilder(
                         animation: controller,
                         builder: (__,_) => GestureDetector(
-                          onTap: () => controller.escolher('calendar'),
+                          onTap: () => controller.pickCategory('calendar'),
                           child: CircleAvatar(
                             radius: 31,
                             backgroundColor: controller.category.value == 'calendar'
@@ -116,7 +117,7 @@ final TodoController controller = TodoController();
                          AnimatedBuilder(
                         animation: controller,
                         builder: (__,_) => GestureDetector(
-                          onTap: () => controller.escolher('trophy'),
+                          onTap: () => controller.pickCategory('trophy'),
                           child: CircleAvatar(
                             radius: 31,
                             backgroundColor: controller.category.value == 'trophy'
@@ -236,8 +237,10 @@ final TodoController controller = TodoController();
                   category: controller.category.value,
                   date: _dateController.text,
                   hour: _timeController.text,
-                  annotation: _anotationController.text);
+                  annotation: _anotationController.text,
+                   );
                 controller.saveTask(task);
+                 print(task.title);
             },
             child: const Text(
               'Salvar',

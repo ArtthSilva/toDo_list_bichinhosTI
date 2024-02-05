@@ -13,21 +13,22 @@ class TodoController extends ChangeNotifier {
   }
 
 
-  escolher(String newCategory) {
+  pickCategory(String newCategory) {
     category.value = newCategory;
     notifyListeners();
   }
 
-  Future<void> saveTask(TaskModel task) async {
-    await SqfliteDB.insertTask(task);
-    tasks.add(task);
-  }
+Future<int> saveTask(TaskModel task) async {
+ int id = await SqfliteDB.insertTask(task);
+ tasks.add(task);
+ return id;
+}
+
 
   Future<void> loadTasks() async {
  final tasksFromDb = await SqfliteDB.getTasks();
  tasks = tasksFromDb.map((task) => TaskModel.fromJson(task)).toList();
+ notifyListeners();
 }
-
- 
 
 }

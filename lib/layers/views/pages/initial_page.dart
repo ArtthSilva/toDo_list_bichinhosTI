@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/layers/controllers/todo_controller.dart';
 import 'package:todo_list/layers/views/pages/new_task_page.dart';
-import 'package:todo_list/widgets/tasks_custom_widget.dart';
-
+ 
 class InitialPage extends StatefulWidget {
   const InitialPage({super.key});
 
@@ -24,9 +23,10 @@ class _InitialPageState extends State<InitialPage> {
       DateFormat('LLLL, d, y', 'pt_BR').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
+    bool test = true;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[100],
         body: Stack(
           children: [
             Column(
@@ -74,27 +74,49 @@ class _InitialPageState extends State<InitialPage> {
                 
               ],
             ),
-            Align(
-              alignment: Alignment(0, -0.35),
-              child: ListView.builder(
-                    itemCount: controller.tasks.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),                   
-                    itemBuilder:(context, index){
-                      return Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.sizeOf(context).width * 0.10,
-                          ),
-                          TasksCustomWidget(
-                            urlImage: controller.tasks[index].category,
-                            urlTitle: controller.tasks[index].title, 
-                            urlDate: controller.tasks[index].date, 
-                            urlHour: controller.tasks[index].hour),
-                        ],
-                      );
-                    } ),
+            Padding(
+              padding: const EdgeInsets.only(left:20, right: 20),
+              child: Align(
+                alignment: const Alignment(0, -0.35),
+                child: ListView.builder(
+                      itemCount: controller.tasks.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),                   
+                      itemBuilder:(context, index){
+                        return Row(
+                          children: [
+                 
+                            Expanded(
+                              child: AnimatedBuilder(
+                                animation: controller,
+                                builder: (_,__) => Container(
+                                  color: Colors.white,
+                                  child: CheckboxListTile(
+                                    title: Text(controller.tasks[index].title),
+                                    subtitle: Text('${controller.tasks[index].date} - às ${controller.tasks[index].hour}'),
+                                    value:test, onChanged: (test){},
+                                    tileColor: Colors.white,
+                                    ),
+                                ),
+                              ),
+                              
+                            ),                          
+                          ],
+                        );
+                      } ),
+              ),
             ),
+           Align(
+            alignment:const Alignment(-1, 0.35),
+             child: Row(
+               children: [
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.10,
+                ),
+                const Text('Finalizadas',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),),
+               ],
+             ),
+           ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: Align(

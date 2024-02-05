@@ -19,7 +19,7 @@ class SqfliteDB {
 
  static Future<Database> db() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'todolistbichinhos.db'),
+      join(await getDatabasesPath(), 'todolistbichinho.db'),
       version: 1,
       onCreate: (Database database, int version) async {
         await createTables(database);
