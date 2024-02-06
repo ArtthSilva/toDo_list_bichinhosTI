@@ -238,9 +238,11 @@ final TodoController controller = TodoController();
                   date: _dateController.text,
                   hour: _timeController.text,
                   annotation: _anotationController.text,
+                  completed: 0
                    );
                 controller.saveTask(task);
                  print(task.title);
+                 print(task.completed);
             },
             child: const Text(
               'Salvar',

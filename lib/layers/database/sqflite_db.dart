@@ -12,14 +12,15 @@ class SqfliteDB {
         category TEXT,
         date TEXT,
         hour TEXT,
-        annotation TEXT
+        annotation TEXT,
+        completed INTEGER
       )
       """);
  }
 
  static Future<Database> db() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'todolistbichinho.db'),
+      join(await getDatabasesPath(), 'todobichinho.db'),
       version: 1,
       onCreate: (Database database, int version) async {
         await createTables(database);
@@ -34,7 +35,8 @@ class SqfliteDB {
       'category': task.category,
       'date': task.date.toString(),
       'hour': task.hour.toString(),
-      'annotation': task.annotation
+      'annotation': task.annotation,
+      'completed': task.completed
     };
     final id = await db.insert('tasks', data, conflictAlgorithm: ConflictAlgorithm.replace);
     return id;
@@ -52,7 +54,8 @@ class SqfliteDB {
       'category': task.category,
       'date': task.date.toString(),
       'hour': task.hour.toString(),
-      'annotation': task.annotation
+      'annotation': task.annotation,
+      'completed': task.completed
     };
     final result = await db.update('tasks', data, where: "id = ?", whereArgs: [id]);
     return result;
