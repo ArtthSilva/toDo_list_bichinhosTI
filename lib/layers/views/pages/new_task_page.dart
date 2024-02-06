@@ -241,8 +241,6 @@ final TodoController controller = TodoController();
                   completed: 0
                    );
                 controller.saveTask(task);
-                 print(task.title);
-                 print(task.completed);
             },
             child: const Text(
               'Salvar',

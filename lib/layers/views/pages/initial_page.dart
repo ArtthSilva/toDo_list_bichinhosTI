@@ -19,7 +19,6 @@ class _InitialPageState extends State<InitialPage> {
     controller.addListener(() {
       setState(() {});
     });
-    // Carrega as tarefas do banco de dados após o hot restart
     controller.loadTasks();
   }
 
@@ -91,29 +90,40 @@ class _InitialPageState extends State<InitialPage> {
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(5),
                                 topRight: Radius.circular(5))),
-                        child: Expanded(
-                          child: AnimatedBuilder(
-                            animation: controller,
-                            builder: (_, __) => CheckboxListTile(
-                              title: Text(
-                                controller.tasks[index].title,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                        child: Row(
+                          children: [
+                            SizedBox(width: MediaQuery.sizeOf(context).width * 0.015,),
+                            Image.asset('assets/images/${controller.tasks[index].category}.png'),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width * 0.75,
+                              height: MediaQuery.sizeOf(context).height * 0.1,
+                              child: AnimatedBuilder(
+                                animation: controller,
+                                builder: (_, __) => CheckboxListTile(
+                                  title: Text(
+                                    controller.tasks[index].title,
+                                    style: TextStyle(
+                                      decoration: controller.tasks[index].completed ==  1 ? TextDecoration.lineThrough : null ,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Text(
+                                      '${controller.tasks[index].date} - às ${controller.tasks[index].hour}',
+                                      style: TextStyle(
+                                         decoration: controller.tasks[index].completed ==  1 ? TextDecoration.lineThrough : null ,
+                                      ),
+                                      ),
+                                  value: isCompleted(controller.tasks[index].completed),
+                            
+                                  onChanged: (newValue) {                            
+                                  int newStatus = newValue! ? 1 : 0;
+                                  controller.tasks[index].completed = newStatus;
+                                  SqfliteDB.updateTask(index + 1, controller.tasks[index]);
+                                      setState(() {});                       
+                                  },
+                                ),
                               ),
-                              subtitle: Text(
-                                  '${controller.tasks[index].date} - às ${controller.tasks[index].hour}'),
-                              value: isCompleted(
-                                  controller.tasks[index].completed),
-                              onChanged: (newValue) {                            
-                              int newStatus = newValue! ? 1 : 0;
-                              controller.tasks[index].completed = newStatus;
-                              SqfliteDB.updateTask(index + 1, controller.tasks[index]);
-                                  setState(() {                                    
-                                  });                       
-                              },
-                              tileColor: Colors.white,
                             ),
-                          ),
+                          ],
                         ),
                       );
                     }),

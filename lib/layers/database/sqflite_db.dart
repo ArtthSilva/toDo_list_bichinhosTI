@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_list/layers/models/task_model.dart';
@@ -20,7 +21,7 @@ class SqfliteDB {
 
  static Future<Database> db() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'todobichinho.db'),
+      join(await getDatabasesPath(), 'todobichin.db'),
       version: 1,
       onCreate: (Database database, int version) async {
         await createTables(database);
@@ -66,7 +67,7 @@ class SqfliteDB {
     try {
       await db.delete("tasks", where: "id = ?", whereArgs: [id]);
     } catch (err) {
-      print("Something went wrong when deleting a task: $err");
+      log("Something went wrong when deleting a task: $err");
     }
  }
 
